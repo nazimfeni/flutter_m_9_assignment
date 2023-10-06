@@ -44,9 +44,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<Product> products = [
-    Product('images/product1.png', 'Pullover', 51, 'Black', 'L', 0),
-    Product('images/product2.png', 'T-Shirt', 30, 'Gray', 'L', 0),
-    Product('images/product3.png', 'Sport Dress', 43, 'Black', 'M', 0),
+    Product('images/product1.png', 'Pullover', 51, 'Black', 'L', 1),
+    Product('images/product2.png', 'T-Shirt', 30, 'Gray', 'L', 1),
+    Product('images/product3.png', 'Sport Dress', 43, 'Black', 'M', 1),
   ];
 
   void increaseItemCount(int index) {
