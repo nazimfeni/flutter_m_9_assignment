@@ -1,7 +1,13 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    DevicePreview(
+      enabled: false,
+      builder: (context) => const MyApp(),
+    ),
+  );
 }
 
 class Product {
@@ -12,11 +18,12 @@ class Product {
   String size;
   int quantity;
 
-  Product(this.image, this.name, this.unitPrice, this.color, this.size,
-      this.quantity);
+  Product(this.image, this.name, this.unitPrice, this.color, this.size, this.quantity);
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -65,17 +72,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   MySnackBar(message, context) {
-    return ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color(0xFFF9F9F9),
-        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: const Color(0xFFF9F9F9),
+        iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           IconButton(
             icon: Icon(Icons.search),
@@ -85,13 +93,15 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: [
-          const Padding(
-            padding: EdgeInsets.fromLTRB(14, 18, 0, 24),
-            child: Text("My Bag",
-                style: TextStyle(
-                  fontSize: 34,
-                  fontWeight: FontWeight.w700,
-                )),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(14, 18, 0, 24),
+            child: Text(
+              "My Bag",
+              style: TextStyle(
+                fontSize: screenWidth > 600 ? 48 : 34, // Adjust font size for larger screens
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
           ListView.builder(
             shrinkWrap: true,
@@ -112,7 +122,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Icon(Icons.more_vert),
                               ],
                             ),
-
                             subtitle: Align(
                               alignment: Alignment.topLeft,
                               child: Column(
@@ -121,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   RichText(
                                     text: TextSpan(
                                       children: [
-                                        TextSpan(
+                                        const TextSpan(
                                           text: 'Color: ',
                                           style: TextStyle(
                                             color: Colors.grey,
@@ -152,8 +161,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       Container(
-                                        width: 35,
-                                        height: 35,
+                                        width: 30,
+                                        height: 30,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           boxShadow: [
@@ -169,10 +178,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           color: Colors.white,
                                           shape: CircleBorder(),
                                           child: InkWell(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            onTap: () =>
-                                                decreaseItemCount(index),
+                                            borderRadius: BorderRadius.circular(20),
+                                            onTap: () => decreaseItemCount(index),
                                             child: Center(
                                               child: Icon(
                                                 Icons.remove,
@@ -189,8 +196,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ),
                                       ),
                                       Container(
-                                        width: 35,
-                                        height: 35,
+                                        width: 30,
+                                        height: 30,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           boxShadow: [
@@ -206,10 +213,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           color: Colors.white,
                                           shape: CircleBorder(),
                                           child: InkWell(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            onTap: () =>
-                                                increaseItemCount(index),
+                                            borderRadius: BorderRadius.circular(20),
+                                            onTap: () => increaseItemCount(index),
                                             child: Center(
                                               child: Icon(
                                                 Icons.add,
@@ -231,26 +236,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ],
                               ),
                             ),
-                            // trailing: Container(
-                            //   padding: EdgeInsets.only(
-                            //       left:
-                            //           20.0), // Adjust the value to your desired right padding
-                            //   child: Column(
-                            //     children: [
-                            //       Icon(Icons.more_vert),
-                            //       SizedBox(
-                            //         height: 10,
-                            //       ),
-                            //       Text(
-                            //         '${products[index].unitPrice * products[index].quantity}\$',
-                            //         style: TextStyle(
-                            //           fontSize: 14,
-                            //           fontWeight: FontWeight.w500,
-                            //         ),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
                           ),
                         ),
                       ],
@@ -265,58 +250,60 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
         child: Container(
-            color: Color(0xFFF9F9F9),
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(16, 0, 0, 14),
-                      child: Text(
-                        'Total Amount:',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey),
+          color: Color(0xFFF9F9F9),
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(16, 0, 0, 14),
+                    child: Text(
+                      'Total Amount:',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey,
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 16, 14),
-                      child: Text(
-                        '${calculateTotalAmount().toStringAsFixed(0)}\$',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 16, 14),
+                    child: Text(
+                      '${calculateTotalAmount().toStringAsFixed(0)}\$',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    MySnackBar("Congratulations! Your order has been placed.", context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: Size(343, 48),
-                    backgroundColor: Color(0xffdb3022),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
                   ),
-                  child: Text(
-                    "CHECK OUT",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  MySnackBar("Congratulations! Your order has been placed.", context);
+                },
+                style: ElevatedButton.styleFrom(
+                  fixedSize: Size(343, 48),
+                  backgroundColor: Color(0xffdb3022),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
                   ),
                 ),
-              ],
-            )),
+                child: Text(
+                  "CHECK OUT",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
